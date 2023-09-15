@@ -5,23 +5,28 @@ import css from './App.module.css';
 import Searchbar from './Searchbar/Searchbar';
 import {fetchImages} from '../api/pixbayAPI';
 import ImageGallery from './ImageGallery/ImageGallery';
+import Button from './Button/Button';
 
-const perPage = 12;
-let currentPage = 1;
+//const perPage = 12;
+//let currentPage = 1;
 
 export class App extends Component {
   state = {
     query: '',
     hits: [],
+    page: 1,
     loading: false,
     showButton: false,
   };
 
   componentDidUpdate(prevProps, prevState) { 
+    //const currentPage = this.state.page;
     if (prevState.query !== this.state.query) {
-    fetchImages(this.state.query,currentPage,perPage)
+    this.setState({page: 1});
+    //fetchImages(this.state.query,currentPage,12)
+    fetchImages(this.state.query,this.state.page,12)
     .then(data=>{
-      //console.log('data', data)
+      console.log('data---1', data)
       //console.log(data.hits);
       if (!data.hits.length & !data.totalHits) {
         //
@@ -29,11 +34,14 @@ export class App extends Component {
           'Sorry, there are no images matching your search query. Please try again.'
         );
       }
-      if (currentPage === 1) {
+      //if (currentPage === 1) {
+      if (this.state.page === 1) {  
         toast.success(`Hooray! We found ${data.totalHits} images.`);
       }
       // - отобразить галерею
-      this.setState({ hits:data.hits, loading: false });
+      //this.setState({ page: 1, hits:data.hits, loading: false });
+      this.setState({ page: prevState.page + 1, hits:data.hits, loading: false });
+      //this.setState({page: currentPage+1});
       //
       if (data.hits.length === data.totalHits) {
         // 'zaz'
@@ -54,15 +62,41 @@ export class App extends Component {
    // console.log('query', query);
   };
 
+  loadMore = () => {
+    // console.log(this.state.page);
+    // this.setState(
+    //   prevState => ({ page: prevState.page + 1 }),
+    //   () => console.log(this.state.page)
+    // );
+
+    //const currentPage = this.state.page + 1;
+    
+    //fetchImages(this.state.query,currentPage,12)
+    fetchImages(this.state.query,this.state.page,12)
+    .then(data=>{
+      console.log('data--NNN', data)
+      //console.log(data.hits);
+      this.setState(prevState => ({
+        hits: [...prevState.hits, ...data.hits],
+        loading: false,
+        showButton: true,
+        //page: currentPage +1,
+        page: prevState.page + 1
+      }));
+      //this.setState(prevState => ({ page: prevState.page + 1 }))
+    })
+    .catch(err => console.log(err)); 
+  }
+
+
   render() {
     return (
-      <>
       <div className={css.App}>
         <Searchbar onSubmit={this.onSubmit} />
         <ImageGallery data={this.state.hits}  />
+        <Button loadMore={this.loadMore}/>
+        <ToastContainer autoClose={2000} />
       </div>
-      <ToastContainer autoClose={2000} />
-      </>
     );
   }
 }
