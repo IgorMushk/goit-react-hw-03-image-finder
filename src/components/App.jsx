@@ -84,13 +84,21 @@ export class App extends Component {
       .then(data => {
         console.log('data--NNN', data);
         //console.log(data.hits);
+        
         this.setState(prevState => ({
           hits: [...prevState.hits, ...data.hits],
           loading: false,
-          showButton: true,
+          //showButton: true,
           //page: currentPage +1,
           page: prevState.page + 1,
         }));
+        if (data.hits.length < 12) {
+          toast.info("Sorry, but this is the last page.");  
+          this.setState({showButton: false})      
+        } else {
+          this.setState({showButton: true})      
+        }
+
         //this.setState(prevState => ({ page: prevState.page + 1 }))
       })
       .catch(err => console.log(err));
