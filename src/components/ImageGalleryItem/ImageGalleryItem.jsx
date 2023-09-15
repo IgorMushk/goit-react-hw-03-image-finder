@@ -1,18 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import css from './ImageGalleryItem.module.css'
 
-export default class ImageGalleryItem extends Component {
-  state = {
-    showModal: false,
-  };
-
-  render() {
-    const {webformatURL, largeImageURL} = this.props.data 
-    console.log('largeImageURL', largeImageURL)
+const ImageGalleryItem = ({webformatURL, onOpenModal}) => {
+    //console.log('webformatURL', webformatURL)
     return (
       <li className={css.ImageGalleryItem}>
-        <img className={css.ImageGalleryItemImage} src={webformatURL} alt="" />
+        <img className={css.ImageGalleryItemImage} src={webformatURL} alt="" onClick={()=>onOpenModal()}/>
       </li>
     );
-  }
+
 }
+
+export default ImageGalleryItem;
+
+// export default class ImageGalleryItem extends Component {
+//   render() {
+//     const {webformatURL, largeImageURL} = this.props.data 
+//     //console.log('largeImageURL', largeImageURL)
+//     return (
+//       <li className={css.ImageGalleryItem}>
+//         <img className={css.ImageGalleryItemImage} src={webformatURL} alt="" />
+//       </li>
+//     );
+//   }
+// }

@@ -21,8 +21,8 @@ export class App extends Component {
     if (prevState.query !== this.state.query) {
     fetchImages(this.state.query,currentPage,perPage)
     .then(data=>{
-      console.log('data', data)
-      console.log(data.hits);
+      //console.log('data', data)
+      //console.log(data.hits);
       if (!data.hits.length & !data.totalHits) {
         //
         return  toast.warn(
@@ -51,7 +51,7 @@ export class App extends Component {
 
   onSubmit = query => {
     this.setState({ query });
-    console.log('query', query);
+   // console.log('query', query);
   };
 
   render() {
