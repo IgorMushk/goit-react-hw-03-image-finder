@@ -28,8 +28,8 @@ export class App extends Component {
       //fetchImages(this.state.query,currentPage,12)
       fetchImages(this.state.query, this.state.page, 12)
         .then(data => {
-          console.log('data---1', data);
-          console.log('this.state.page', this.state.page);
+          //console.log('data---1', data);
+          //console.log('this.state.page', this.state.page);
           //console.log(data.hits);
           if (!data.hits.length & !data.totalHits) {
             this.setState({loading: false})
@@ -82,7 +82,7 @@ export class App extends Component {
     //fetchImages(this.state.query,currentPage,12)
     fetchImages(this.state.query, this.state.page+1, 12)
       .then(data => {
-        console.log('data--NNN', data);
+        //console.log('data--NNN', data);
         //console.log(data.hits);
         
         this.setState(prevState => ({
