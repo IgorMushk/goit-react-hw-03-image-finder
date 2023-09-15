@@ -80,7 +80,7 @@ export class App extends Component {
     //const currentPage = this.state.page + 1;
 
     //fetchImages(this.state.query,currentPage,12)
-    fetchImages(this.state.query, this.state.page, 12)
+    fetchImages(this.state.query, this.state.page+1, 12)
       .then(data => {
         console.log('data--NNN', data);
         //console.log(data.hits);
