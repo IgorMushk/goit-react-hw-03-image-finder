@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import css from './Searchbar.module.css'
+import { BsSearch } from 'react-icons/bs';
 
 export default class Searchbar extends Component {
   render() {
@@ -8,6 +9,7 @@ export default class Searchbar extends Component {
         <form className={css.SearchForm}>
           <button type="submit" className={css.SearchFormButton}>
             <span className={css.SearchFormButtonLabel}>Search</span>
+           <BsSearch size={22}/> 
           </button>
       
           <input
