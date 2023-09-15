@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import css from './App.module.css';
 import Searchbar from './Searchbar/Searchbar';
 import {fetchImages} from '../api/pixbayAPI';
-import { toast, ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import ImageGallery from './ImageGallery/ImageGallery';
 
 const perPage = 12;
 let currentPage = 1;
@@ -17,9 +18,11 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) { 
+    if (prevState.query !== this.state.query) {
     fetchImages(this.state.query,currentPage,perPage)
     .then(data=>{
       console.log('data', data)
+      console.log(data.hits);
       if (!data.hits.length & !data.totalHits) {
         //
         return  toast.warn(
@@ -30,7 +33,7 @@ export class App extends Component {
         toast.success(`Hooray! We found ${data.totalHits} images.`);
       }
       // - отобразить галерею
-      //
+      this.setState({ hits:data.hits, loading: false });
       //
       if (data.hits.length === data.totalHits) {
         // 'zaz'
@@ -42,7 +45,7 @@ export class App extends Component {
       // - LoadMore показать
     })
     .catch(err => console.log(err));
-
+  }
   } 
 
 
@@ -56,6 +59,7 @@ export class App extends Component {
       <>
       <div className={css.App}>
         <Searchbar onSubmit={this.onSubmit} />
+        <ImageGallery data={this.state.hits}  />
       </div>
       <ToastContainer autoClose={2000} />
       </>

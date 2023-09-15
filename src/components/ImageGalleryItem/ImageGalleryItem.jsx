@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import css from './ImageGalleryItem.module.css'
 
 export default class ImageGalleryItem extends Component {
   state = {
@@ -6,9 +7,11 @@ export default class ImageGalleryItem extends Component {
   };
 
   render() {
+    const {webformatURL, largeImageURL} = this.props.data 
+
     return (
-      <li class="gallery-item">
-        <img src="" alt="" />
+      <li className={css.ImageGalleryItem}>
+        <img className={css.ImageGalleryItemImage} src={webformatURL} alt="" />
       </li>
     );
   }
