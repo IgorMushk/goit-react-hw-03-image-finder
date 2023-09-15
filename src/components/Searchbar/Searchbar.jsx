@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import css from './Searchbar.module.css';
 import { BsSearch } from 'react-icons/bs';
-//import { toast } from 'react-toastify';
-//import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 export default class Searchbar extends Component {
   state = {
@@ -18,15 +16,15 @@ export default class Searchbar extends Component {
   handleSubmit = evt => {
     evt.preventDefault();
     if (this.state.inputeValue.trim().length < 1) {
-        console.log('this.state.inputeValue.trim().length', this.state.inputeValue.trim().length)
-        return toast("Enter a search string");
-        
+        //console.log('this.state.inputeValue.trim().length', this.state.inputeValue.trim().length)
+        return toast.error("Enter a search string");
     }
     this.props.onSubmit(this.state.inputeValue);
   }
 
   render() {
     return (
+    <>
       <header className={css.Searchbar}>
         <form className={css.SearchForm} onSubmit={this.handleSubmit}>
           <button type="submit" className={css.SearchFormButton}>
@@ -45,6 +43,8 @@ export default class Searchbar extends Component {
           />
         </form>
       </header>
+      <ToastContainer autoClose={2000} />
+      </>
     );
   }
 }
