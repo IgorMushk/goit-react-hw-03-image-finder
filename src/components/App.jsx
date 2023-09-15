@@ -1,14 +1,23 @@
-import React, { Component } from 'react'
-import css from './App.module.css'
-import Searchbar from './Searchbar/Searchbar'
+import React, { Component } from 'react';
+import css from './App.module.css';
+import Searchbar from './Searchbar/Searchbar';
 
 export class App extends Component {
+  state = {
+    query: '',
+  };
+
+  onSubmit = query => {
+    this.setState({ query });
+    console.log('query', query);
+  };
+
   render() {
     return (
-     <div className={css.App}> 
-     <Searchbar/>
-    </div>
-    )
+      <div className={css.App}>
+        <Searchbar onSubmit={this.onSubmit} />
+      </div>
+    );
   }
 }
 
