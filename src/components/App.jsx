@@ -1,11 +1,50 @@
 import React, { Component } from 'react';
 import css from './App.module.css';
 import Searchbar from './Searchbar/Searchbar';
+import {fetchImages} from '../api/pixbayAPI';
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
+const perPage = 12;
+let currentPage = 1;
 
 export class App extends Component {
   state = {
     query: '',
+    hits: [],
+    loading: false,
+    showButton: false,
   };
+
+  componentDidUpdate(prevProps, prevState) { 
+    fetchImages(this.state.query,currentPage,perPage)
+    .then(data=>{
+      console.log('data', data)
+      if (!data.hits.length & !data.totalHits) {
+        //
+        return  toast.warn(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+      }
+      if (currentPage === 1) {
+        toast.success(`Hooray! We found ${data.totalHits} images.`);
+      }
+      // - отобразить галерею
+      //
+      //
+      if (data.hits.length === data.totalHits) {
+        // 'zaz'
+        //
+        toast.info(
+          "We're sorry, but you've reached the end of search results."
+        );
+      }
+      // - LoadMore показать
+    })
+    .catch(err => console.log(err));
+
+  } 
+
 
   onSubmit = query => {
     this.setState({ query });
@@ -14,9 +53,12 @@ export class App extends Component {
 
   render() {
     return (
+      <>
       <div className={css.App}>
         <Searchbar onSubmit={this.onSubmit} />
       </div>
+      <ToastContainer autoClose={2000} />
+      </>
     );
   }
 }
