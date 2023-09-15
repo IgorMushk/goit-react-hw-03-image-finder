@@ -36,14 +36,3 @@ render() {
   }
 }
 
-// const ImageGallery = ({ data }) => {
-//   return (
-//   <ul className={css.ImageGallery}>
-//     {data.map(img => (
-//       <ImageGalleryItem key={img.id} data={img} />
-//     ))}
-//   </ul>
-//   );
-// };
-
-// export default ImageGallery;

@@ -12,15 +12,3 @@ const ImageGalleryItem = ({webformatURL, onOpenModal}) => {
 }
 
 export default ImageGalleryItem;
-
-// export default class ImageGalleryItem extends Component {
-//   render() {
-//     const {webformatURL, largeImageURL} = this.props.data 
-//     //console.log('largeImageURL', largeImageURL)
-//     return (
-//       <li className={css.ImageGalleryItem}>
-//         <img className={css.ImageGalleryItemImage} src={webformatURL} alt="" />
-//       </li>
-//     );
-//   }
-// }

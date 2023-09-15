@@ -8,9 +8,6 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import { Loader } from './Loader/Loader';
 
-//const perPage = 12;
-//let currentPage = 1;
-
 export class App extends Component {
   state = {
     query: '',
@@ -22,36 +19,27 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    //const currentPage = this.state.page;
     if (prevState.query !== this.state.query) {
       this.setState({ hits: [], page: 1, showButton: false, loading: true });
-      //fetchImages(this.state.query,currentPage,12)
       fetchImages(this.state.query, this.state.page, 12)
         .then(data => {
-          //console.log('data---1', data);
-          //console.log('this.state.page', this.state.page);
-          //console.log(data.hits);
           if (!data.hits.length & !data.totalHits) {
             this.setState({loading: false})
             return toast.warn(
               'Sorry, there are no images matching your search query. Please try again.'
             );
           }
-          //if (currentPage === 1) {
           if (this.state.page === 1) {
             toast.success(`Hooray! We found ${data.totalHits} images.`);
           }
-          // - отобразить галерею
-          //this.setState({ page: 1, hits:data.hits, loading: false });
+
           this.setState({
-            //page: prevState.page + 1,
             totalPage: Math.ceil(data.totalHits / 12),
             hits: data.hits,
             loading: false,
             showButton: true,
           });
-          //this.setState({page: currentPage+1});
-          //
+
           if (data.hits.length === data.totalHits) {
             // 'zaz'
             this.setState({showButton: false})
@@ -59,7 +47,7 @@ export class App extends Component {
               "We're sorry, but you've reached the end of search results."
             );
           }
-          // - LoadMore показать
+
         })
         .catch(err => console.log(err));
     }
@@ -67,7 +55,6 @@ export class App extends Component {
 
   onSubmit = query => {
     this.setState({ query,  page: 1, });
-    // console.log('query', query);
   };
 
   loadMore = () => {
@@ -77,19 +64,13 @@ export class App extends Component {
     //   () => console.log(this.state.page)
     // );
 
-    //const currentPage = this.state.page + 1;
-
-    //fetchImages(this.state.query,currentPage,12)
     fetchImages(this.state.query, this.state.page+1, 12)
       .then(data => {
-        //console.log('data--NNN', data);
-        //console.log(data.hits);
-        
+                
         this.setState(prevState => ({
           hits: [...prevState.hits, ...data.hits],
           loading: false,
-          //showButton: true,
-          //page: currentPage +1,
+        
           page: prevState.page + 1,
         }));
         if (data.hits.length < 12) {
@@ -99,7 +80,6 @@ export class App extends Component {
           this.setState({showButton: true})      
         }
 
-        //this.setState(prevState => ({ page: prevState.page + 1 }))
       })
       .catch(err => console.log(err));
   };
@@ -117,19 +97,3 @@ export class App extends Component {
   }
 }
 
-// export const App = () => {
-//   return (
-//     <div
-//       style={{
-//         height: '100vh',
-//         display: 'flex',
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         fontSize: 40,
-//         color: '#010101'
-//       }}
-//     >
-//       React homework template!
-//     </div>
-//   );
-// };
